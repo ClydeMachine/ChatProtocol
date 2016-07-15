@@ -47,9 +47,14 @@ case class ChatServerThread(socket: Socket) extends Thread("ServerThread") {
         var succeeded = false
         println("Wait for client message...")
         do {
-          //userMessage = in.readObject().asInstanceOf[String]
           userMessage = ChatProtocolObject.processInput(in.readObject().asInstanceOf[String])
-          if (userMessage != "") {
+          if (userMessage == "TERMINATESIGNAL") {
+            println("Received exit message from client.")
+            out.writeObject(userMessage)
+            out.flush()
+            succeeded = true
+            endSession()
+          } else if (userMessage != "TERMINATESIGNAL") {
             println("Received message from client: " + userMessage)
             out.writeObject("Successful receipt of: " + userMessage)
             out.flush()

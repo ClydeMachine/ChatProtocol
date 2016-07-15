@@ -38,12 +38,26 @@ object ChatClient {
       while (true) {
         print("> ")
         out.writeObject(StdIn.readLine())
-        out.flush()
+        //val clientMessage = out.writeObject(StdIn.readLine()).asInstanceOf[String]
         var waitingOnServer = true
+
+        /* // Client-side connection termination for quick exits. Currently having issue with casting Object as String for if conditions.
+        if (clientMessage == "exit") {
+          out.flush()
+          endSession
+        } else if (clientMessage == "") {
+          print("<Message cannot be blank.>")
+          waitingOnServer = false
+        } else out.flush()
+        */
+
         do {
           serverMessage = in.readObject().asInstanceOf[String]
-          if (serverMessage != "") {
+          if (serverMessage == "TERMINATESIGNAL") endSession
+          else if (serverMessage != "") {
             println("< [Server] " + serverMessage)
+            waitingOnServer = false
+          } else {
             waitingOnServer = false
           }
         } while (waitingOnServer)

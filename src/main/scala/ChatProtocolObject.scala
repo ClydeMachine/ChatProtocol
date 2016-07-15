@@ -11,8 +11,18 @@ package object ChatProtocolObject {
   def processInput(args: String): String = {
     var result = args
 
-    if (args == "lol") {
-      result = "more like...LOL!"
+    if (args == "exit") result = "TERMINATESIGNAL"
+    else if (args == "help") {
+      result =
+        """
+          |ChatProtocol
+          |
+          |help:
+          |  Display the help text.
+          |
+          |exit:
+          |  Terminate the session.
+        """.stripMargin
     }
 
     result
