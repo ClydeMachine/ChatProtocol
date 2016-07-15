@@ -28,3 +28,9 @@ package object ChatProtocolObject {
     result
   }
 }
+
+package object ChatProtocolIdleTimer {
+  var idleseconds = 30
+  // If the idleseconds value reaches zero, terminate the idle connection.
+
+}
